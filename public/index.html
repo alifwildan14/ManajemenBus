@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Manajemen Armada Kendaraan</title>
+    <!-- Impor Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Impor Font Inter dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Link ke file CSS kustom Anda (jika ada style yang tidak bisa dihandle Tailwind CDN) -->
+    <link rel="stylesheet" href="style.css">
+    <script>
+        // Konfigurasi Tailwind CSS (opsional)
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-inter text-gray-800 flex items-center justify-center min-h-screen">
+
+    <!-- Kontainer Login -->
+    <div id="login-container" class="w-full max-w-md">
+        <form id="form-login" class="bg-white p-8 md:p-10 rounded-xl shadow-2xl">
+            <h2 class="text-3xl font-bold text-indigo-700 mb-8 text-center">Login Admin</h2>
+            <div class="mb-6">
+                <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                <input type="text" id="username" name="username" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm p-3 transition-colors duration-150 ease-in-out focus:ring-2 focus:ring-indigo-300" required placeholder="admin">
+            </div>
+            <div class="mb-8">
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <input type="password" id="password" name="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm p-3 transition-colors duration-150 ease-in-out focus:ring-2 focus:ring-indigo-300" required placeholder="password">
+            </div>
+            <button type="submit" class="w-full py-3 px-5 rounded-lg font-semibold shadow-md transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 transform active:scale-95 text-sm bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500">Login</button>
+            <p id="login-error" class="text-red-500 text-sm mt-4 text-center" style="display: none;">Username atau password salah.</p>
+        </form>
+    </div>
+
+    <!-- Kontainer Konten Admin (Awalnya Tersembunyi) -->
+    <div id="admin-content-container" class="container mx-auto p-4 md:p-8 max-w-6xl hidden">
+        <header class="mb-8 flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-bold text-indigo-700">Manajemen Data Armada</h1>
+                <p class="text-gray-600 mt-1">Selamat datang, Admin!</p>
+            </div>
+            <button id="tombol-logout" class="py-2.5 px-5 rounded-lg font-semibold shadow-md transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 transform active:scale-95 text-sm bg-red-600 text-white hover:bg-red-700 focus:ring-red-500">Logout</button>
+        </header>
+        
+        <!-- Formulir Tambah/Edit Data -->
+        <form id="form-kendaraan" class="bg-white p-6 md:p-8 rounded-xl shadow-2xl mb-12">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-6 border-b border-gray-300 pb-4">Formulir Data Kendaraan</h2>
+            <input type="hidden" id="id-kendaraan"> <!-- Untuk menyimpan ID saat mode edit -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                <!-- Nama Sopir -->
+                <div class="form-group">
+                    <label for="namaSopir" class="block text-sm font-medium text-gray-700 mb-1">Nama Sopir</label>
+                    <input type="text" id="namaSopir" name="namaSopir" placeholder="Contoh: Budi Santoso" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm p-3 transition-colors duration-150 ease-in-out focus:ring-2 focus:ring-indigo-300" required>
+                </div>
+
+                <!-- Nomor Polisi -->
+                <div class="form-group">
+                    <label for="nomorPolisi" class="block text-sm font-medium text-gray-700 mb-1">Nomor Polisi</label>
+                    <input type="text" id="nomorPolisi" name="nomorPolisi" placeholder="Contoh: B 1234 XYZ" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm p-3 transition-colors duration-150 ease-in-out focus:ring-2 focus:ring-indigo-300" required>
+                    <small class="text-xs text-gray-500 mt-1">Nomor polisi harus unik.</small>
+                </div>
+
+                <!-- Tipe Kendaraan -->
+                <div class="form-group">
+                    <label for="tipeKendaraan" class="block text-sm font-medium text-gray-700 mb-1">Tipe Kendaraan</label>
+                    <select id="tipeKendaraan" name="tipeKendaraan" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm p-3 transition-colors duration-150 ease-in-out focus:ring-2 focus:ring-indigo-300" required>
+                        <option value="">-- Pilih Tipe --</option>
+                        <option value="Big bus JB5">Big bus JB5</option>
+                        <option value="Big bus JB3/2">Big bus JB3/2</option>
+                        <option value="Medium bus">Medium bus</option>
+                        <option value="Elf">Elf</option>
+                        <option value="Hiace">Hiace</option>
+                    </select>
+                </div>
+
+                <!-- Jumlah Seat -->
+                <div class="form-group">
+                    <label for="seat" class="block text-sm font-medium text-gray-700 mb-1">Jumlah Seat</label>
+                    <select id="seat" name="seat" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm p-3 transition-colors duration-150 ease-in-out focus:ring-2 focus:ring-indigo-300" required>
+                        <option value="">-- Pilih tipe kendaraan dulu --</option>
+                    </select>
+                </div>
+
+                <!-- Nomor Telepon -->
+                <div class="form-group">
+                    <label for="nomorTelepon" class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon Sopir</label>
+                    <input type="tel" id="nomorTelepon" name="nomorTelepon" placeholder="Contoh: 081234567890" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm p-3 transition-colors duration-150 ease-in-out focus:ring-2 focus:ring-indigo-300" required>
+                </div>
+                
+                <!-- Tahun Kendaraan -->
+                <div class="form-group">
+                    <label for="tahunKendaraan" class="block text-sm font-medium text-gray-700 mb-1">Tahun Kendaraan</label>
+                    <input type="number" id="tahunKendaraan" name="tahunKendaraan" placeholder="Contoh: 2022" min="1980" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm p-3 transition-colors duration-150 ease-in-out focus:ring-2 focus:ring-indigo-300" required>
+                </div>
+
+                <!-- Masa Berlaku KIR -->
+                <div class="form-group">
+                    <label for="masaBerlakuKIR" class="block text-sm font-medium text-gray-700 mb-1">Masa Berlaku KIR</label>
+                    <input type="date" id="masaBerlakuKIR" name="masaBerlakuKIR" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm p-3 transition-colors duration-150 ease-in-out focus:ring-2 focus:ring-indigo-300" required>
+                </div>
+
+                <!-- Status KIR (Readonly) -->
+                <div class="form-group">
+                    <label for="statusKIR" class="block text-sm font-medium text-gray-700 mb-1">Status KIR</label>
+                    <input type="text" id="statusKIR" name="statusKIR" readonly placeholder="Otomatis terisi" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm p-3 transition-colors duration-150 ease-in-out focus:ring-2 focus:ring-indigo-300 bg-gray-100 cursor-not-allowed">
+                </div>
+            </div>
+            <div class="mt-8 text-right space-x-3">
+                <button type="button" id="tombol-reset" class="py-2.5 px-5 rounded-lg font-semibold shadow-md transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 transform active:scale-95 text-sm bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400">Reset Form</button>
+                <button type="submit" id="tombol-simpan" class="py-2.5 px-5 rounded-lg font-semibold shadow-md transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 transform active:scale-95 text-sm bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500">
+                    Simpan Data
+                </button>
+            </div>
+        </form>
+
+        <hr class="my-10 border-gray-300">
+
+        <!-- Daftar Kendaraan -->
+        <h2 class="text-2xl font-semibold text-gray-700 mb-6">Daftar Armada Terdaftar</h2>
+        <div id="daftar-kendaraan" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Data kendaraan akan dimuat di sini oleh JavaScript -->
+            <p id="loading-message" class="text-gray-500 col-span-full text-center py-8">Memuat data kendaraan...</p>
+        </div>
+    </div>
+
+    <!-- Modal untuk konfirmasi hapus -->
+    <div id="deleteConfirmationModal" class="fixed inset-0 bg-gray-800 bg-opacity-60 overflow-y-auto h-full w-full flex items-center justify-center z-50" style="display: none;">
+        <div class="bg-white p-8 rounded-lg shadow-xl max-w-md mx-auto">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Konfirmasi Hapus</h3>
+            <p class="text-gray-600 mb-6">Apakah Anda yakin ingin menghapus data kendaraan dengan nomor polisi <strong id="nomorPolisiHapus" class="text-indigo-600"></strong>?</p>
+            <div class="flex justify-end space-x-4">
+                <button id="cancelDeleteButton" class="py-2.5 px-5 rounded-lg font-semibold shadow-md transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 transform active:scale-95 text-sm bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400">Batal</button>
+                <button id="confirmDeleteButton" class="py-2.5 px-5 rounded-lg font-semibold shadow-md transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 transform active:scale-95 text-sm bg-red-600 text-white hover:bg-red-700 focus:ring-red-500">Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifikasi Toast -->
+    <div id="toast-notification" class="fixed bottom-5 right-5 bg-gray-800 text-white py-3 px-5 rounded-lg shadow-lg z-50 transition-all duration-300 opacity-0" style="display: none;">
+        <span id="toast-message"></span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
