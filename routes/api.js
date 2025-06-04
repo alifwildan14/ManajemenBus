@@ -1,6 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const Kendaraan = require('../models/Kendaraan'); // Impor model Kendaraan
+
+// Contoh endpoint
+router.get('/', (req, res) => {
+  res.json({ message: 'Daftar kendaraan' });
+});
+
+module.exports = router;
 
 // --- RUTE CRUD (Create, Read, Update, Delete) ---
 
