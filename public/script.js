@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     cancelDeleteButton.addEventListener('click', hideDeleteModal);
 
-    confirmDeleteButton.addEventListener('click', async () => {
+      confirmDeleteButton.addEventListener('click', async () => {
         if (vehicleIdToDelete) {
             try {
                 const response = await fetch(`/api/kendaraan/${vehicleIdToDelete}`, { method: 'DELETE' });
@@ -283,9 +283,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     showToast(`Gagal menghapus data: ${errorData.message || 'Error tidak diketahui'}`, 'error');
                 }
             } catch (err) {
-                showToast(`Error: ${err.message}`, 'error');
+                showToast(`Terjadi kesalahan: ${err.message}`, 'error');
             } finally {
-                hideDeleteModal();
+                hideDeleteModal(); // Sembunyikan modal setelah proses selesai
             }
         }
     });
