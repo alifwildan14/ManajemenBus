@@ -2,7 +2,7 @@
     const express = require('express');
     const router = express.Router();
     // Jika folder 'models' sejajar dengan folder 'routes', maka pathnya '../models/Kendaraan'
-    const Kendaraan = require('../models/Kendaraan'); 
+    const Kendaraan = require('../models/kendaraan'); 
 
     console.log('[routes/api.js] Rute API kendaraan dimuat.');
 
