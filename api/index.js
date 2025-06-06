@@ -41,7 +41,7 @@ if (!MONGODB_URI) {
 
 // Gunakan rute API dengan path mounting yang benar.
 // Permintaan ke /models/kendaraan.js akan ditangani oleh router 'kendaraanRoutes'.
-app.use('/models/kendaraan.js', kendaraanRoutes);
+app.use('/models/Kendaraan.js', kendaraanRoutes);
 console.log('[api/index.js] Rute API telah di-mount di bawah /models/kendaraan.js.');
 
 

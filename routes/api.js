@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 // Jika folder 'models' sejajar dengan folder 'routes', maka pathnya '../models/Kendaraan'
-const Kendaraan = require('../models/kendaraan'); 
+const Kendaraan = require('../models/Kendaraan'); 
 
 // CATATAN MENGENAI PERINGATAN MONGOOSE:
 // Peringatan "Duplicate schema index" biasanya muncul dari file models/Kendaraan.js.
