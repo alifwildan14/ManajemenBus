@@ -1,11 +1,11 @@
     // File: public/script.js
     // ... (kode lainnya tetap sama) ...
 
-    const muatDataKendaraan = async () => {
+    const muatDatakendaraan = async () => {
         if (!cekLogin()) return; 
 
         loadingMessage.style.display = 'block';
-        daftarKendaraanDiv.innerHTML = ''; 
+        daftarkendaraanDiv.innerHTML = ''; 
 
         try {
             // URL API yang dipanggil oleh frontend
@@ -29,16 +29,16 @@
             // ... (sisa kode untuk menampilkan data) ...
         } catch (error) {
             loadingMessage.style.display = 'none';
-            daftarKendaraanDiv.innerHTML = '<p class="text-red-500 col-span-full text-center py-8">Gagal memuat data. Pastikan server backend berjalan dan API merespons dengan benar.</p>';
-            console.error('Error fetching data (muatDataKendaraan):', error);
+            daftarkendaraanDiv.innerHTML = '<p class="text-red-500 col-span-full text-center py-8">Gagal memuat data. Pastikan server backend berjalan dan API merespons dengan benar.</p>';
+            console.error('Error fetching data (muatDatakendaraan):', error);
             showToast('Gagal memuat data kendaraan. Cek konsol untuk detail.', 'error');
         }
     };
 
     // ... (kode lainnya tetap sama) ...
 
-    if (formKendaraan) {
-        formKendaraan.addEventListener('submit', async (e) => {
+    if (formkendaraan) {
+        formkendaraan.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const formData = {
@@ -48,7 +48,7 @@
             // ... (validasi frontend) ...
 
             // URL API untuk POST/PUT
-            const url = isEditMode ? `/api/kendaraan/${idKendaraanInput.value}` : '/api/kendaraan';
+            const url = isEditMode ? `/api/kendaraan/${idkendaraanInput.value}` : '/api/kendaraan';
             const method = isEditMode ? 'PUT' : 'POST';
 
             try {
