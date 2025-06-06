@@ -1,8 +1,8 @@
     // File: routes/api.js
     const express = require('express');
     const router = express.Router();
-    // Jika folder 'models' sejajar dengan folder 'routes', maka pathnya '../models/Kendaraan'
-    const Kendaraan = require('../models/Kendaraan'); 
+    // Jika folder 'models' sejajar dengan folder 'routes', maka pathnya '../router.get('/kendaraan/:id''
+    const Kendaraan = require('../models/kendaraan'); 
 
     // READ - Mendapatkan semua data kendaraan (di-mount di GET /api/kendaraan)
     router.get('/', async (req, res) => {
