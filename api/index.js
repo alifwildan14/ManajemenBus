@@ -40,9 +40,9 @@ if (!MONGODB_URI) {
 }
 
 // Gunakan rute API dengan path mounting yang benar.
-// Permintaan ke /api/kendaraan akan ditangani oleh router 'kendaraanRoutes'.
-app.use('/api/kendaraan', kendaraanRoutes);
-console.log('[api/index.js] Rute API telah di-mount di bawah /api/kendaraan.');
+// Permintaan ke /models/kendaraan.js akan ditangani oleh router 'kendaraanRoutes'.
+app.use('/models/kendaraan.js', kendaraanRoutes);
+console.log('[api/index.js] Rute API telah di-mount di bawah /models/kendaraan.js.');
 
 
 // Handler untuk rute yang tidak cocok di dalam Express untuk debugging
