@@ -11,26 +11,26 @@ const Kendaraan = require('../models/kendaraan');
 // Anda hanya memerlukan salah satunya. Hapus panggilan `kendaraanSchema.index(...)` jika Anda sudah menggunakan `unique: true` di dalam definisi skema.
 
 // READ - Mendapatkan semua data kendaraan (di-mount di GET /api/kendaraan)
-// PERUBAHAN: Rute ini sekarang secara eksplisit mendengarkan di /kendaraan
-router.get('/kendaraan', async (req, res) => {
+// PERUBAHAN: Rute kembali ke '/' karena path '/api/kendaraan' sudah dihandle di api/index.js
+router.get('/', async (req, res) => {
     try {
         const semuaKendaraan = await Kendaraan.find().sort({ createdAt: -1 });
         res.json(semuaKendaraan);
     } catch (error) {
-        console.error('[routes/api.js] Error saat GET /kendaraan:', error);
+        console.error('[routes/api.js] Error saat GET /:', error);
         res.status(500).json({ message: "Gagal mengambil data kendaraan", error: error.message });
     }
 });
 
 // CREATE - Menambah data kendaraan baru (di-mount di POST /api/kendaraan)
-// PERUBAHAN: Rute ini sekarang secara eksplisit mendengarkan di /kendaraan
-router.post('/kendaraan', async (req, res) => {
+// PERUBAHAN: Rute kembali ke '/'
+router.post('/', async (req, res) => {
     try {
         const kendaraanBaru = new Kendaraan(req.body);
         const savedKendaraan = await kendaraanBaru.save();
         res.status(201).json(savedKendaraan);
     } catch (error) {
-        console.error('[routes/api.js] Error saat POST /kendaraan:', error);
+        console.error('[routes/api.js] Error saat POST /:', error);
         if (error.code === 11000) { 
             return res.status(400).json({ message: `Nomor Polisi "${req.body.nomorPolisi}" sudah terdaftar.` });
         }
@@ -42,8 +42,8 @@ router.post('/kendaraan', async (req, res) => {
 });
 
 // READ - Mendapatkan satu data kendaraan berdasarkan ID (di-mount di GET /api/kendaraan/:id)
-// PERUBAHAN: Rute ini sekarang secara eksplisit mendengarkan di /kendaraan/:id
-router.get('/kendaraan/:id', async (req, res) => {
+// PERUBAHAN: Rute kembali ke '/:id'
+router.get('/:id', async (req, res) => {
     try {
         const kendaraan = await Kendaraan.findById(req.params.id);
         if (!kendaraan) {
@@ -51,7 +51,7 @@ router.get('/kendaraan/:id', async (req, res) => {
         }
         res.json(kendaraan);
     } catch (error) {
-        console.error(`[routes/api.js] Error saat GET /kendaraan/:id (${req.params.id}):`, error);
+        console.error(`[routes/api.js] Error saat GET /:id (${req.params.id}):`, error);
         if (error.name === 'CastError') {
              return res.status(400).json({ message: "Format ID kendaraan tidak valid." });
         }
@@ -60,8 +60,8 @@ router.get('/kendaraan/:id', async (req, res) => {
 });
 
 // UPDATE - Mengubah data kendaraan berdasarkan ID (di-mount di PUT /api/kendaraan/:id)
-// PERUBAHAN: Rute ini sekarang secara eksplisit mendengarkan di /kendaraan/:id
-router.put('/kendaraan/:id', async (req, res) => {
+// PERUBAHAN: Rute kembali ke '/:id'
+router.put('/:id', async (req, res) => {
     try {
         const updatedKendaraan = await Kendaraan.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
         if (!updatedKendaraan) {
@@ -69,15 +69,15 @@ router.put('/kendaraan/:id', async (req, res) => {
         }
         res.json(updatedKendaraan);
     } catch (error) {
-        console.error(`[routes/api.js] Error saat PUT /kendaraan/:id (${req.params.id}):`, error);
+        console.error(`[routes/api.js] Error saat PUT /:id (${req.params.id}):`, error);
         // Tambahkan penanganan error yang lebih spesifik jika diperlukan
         res.status(500).json({ message: "Gagal mengupdate data", error: error.message });
     }
 });
 
 // DELETE - Menghapus data kendaraan berdasarkan ID (di-mount di DELETE /api/kendaraan/:id)
-// PERUBAHAN: Rute ini sekarang secara eksplisit mendengarkan di /kendaraan/:id
-router.delete('/kendaraan/:id', async (req, res) => {
+// PERUBAHAN: Rute kembali ke '/:id'
+router.delete('/:id', async (req, res) => {
     try {
         const deletedKendaraan = await Kendaraan.findByIdAndDelete(req.params.id);
         if (!deletedKendaraan) {
@@ -85,7 +85,7 @@ router.delete('/kendaraan/:id', async (req, res) => {
         }
         res.json({ message: "Data kendaraan berhasil dihapus" });
     } catch (error) {
-        console.error(`[routes/api.js] Error saat DELETE /kendaraan/:id (${req.params.id}):`, error);
+        console.error(`[routes/api.js] Error saat DELETE /:id (${req.params.id}):`, error);
         res.status(500).json({ message: "Gagal menghapus data", error: error.message });
     }
 });
