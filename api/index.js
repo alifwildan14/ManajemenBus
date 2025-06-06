@@ -39,22 +39,15 @@ if (!MONGODB_URI) {
       });
 }
 
-// Gunakan rute API dengan path yang lebih eksplisit
-// Sekarang kita mount router langsung di bawah path /api
-// Ini membuat routing di backend lebih cocok dengan path yang diminta frontend
-app.use('/api', kendaraanRoutes);
-console.log('[api/index.js] Rute API telah di-mount di bawah /api.');
+// Gunakan rute API dengan path mounting yang benar.
+// Permintaan ke /api/kendaraan akan ditangani oleh router 'kendaraanRoutes'.
+app.use('/api/kendaraan', kendaraanRoutes);
+console.log('[api/index.js] Rute API telah di-mount di bawah /api/kendaraan.');
 
-// Rute dasar untuk mengecek apakah fungsi serverless ini berjalan
-// Akan merespons pada GET request ke path dasar fungsi ini (yang di-map ke /api oleh Vercel)
-app.get('/api', (req, res) => {
-    console.log('[api/index.js] GET request ke /api (base fungsi api/index.js) diterima');
-    res.status(200).json({ message: 'Fungsi API Serverless (api/index.js) Berjalan!' });
-});
 
-// Handler untuk 404 di dalam Express untuk debugging
+// Handler untuk rute yang tidak cocok di dalam Express untuk debugging
 app.use((req, res) => {
-    console.warn(`[404 Handler] Rute tidak ditemukan untuk path: ${req.path}`);
+    console.warn(`[404 Handler] Rute Express tidak ditemukan untuk path: ${req.path}`);
     res.status(404).json({ message: `Rute tidak ditemukan di dalam aplikasi Express: ${req.path}` });
 });
 
